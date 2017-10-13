@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.ProductDetailMapper">
+
+
+
+	<insert id="insert" parameterType="com.shop.bean.ProductDetail">
+		INSERT INTO product_detail(product_id, product_belog_two_category_id, product_num, product_name, product_describe, product_price, imgurl, origin_address, period, scale, taste, product_belog_three_category_id) 
+		VALUES(#{productId}, #{productBelogTwoCategoryId}, #{productNum}, #{productName}, #{productDescribe}, #{productPrice}, #{imgurl}, #{originAddress}, #{period}, #{scale}, #{taste}, #{productBelogThreeCategoryId})
+	</insert>
+
+	<delete id="deleteByPK" parameterType="Integer">
+		DELETE FROM product_detail WHERE product_id = #{productId}
+	</delete>
+
+	<delete id="deleteByExample" parameterType="com.shop.bean.ProductDetail">
+		DELETE FROM product_detail WHERE
+		<trim prefixOverrides="AND">
+			<if test="productId != null"> AND product_id = #{productId}</if>
+			<if test="productBelogTwoCategoryId != null"> AND product_belog_two_category_id = #{productBelogTwoCategoryId}</if>
+			<if test="productNum != null"> AND product_num = #{productNum}</if>
+			<if test="productName != null"> AND product_name = #{productName}</if>
+			<if test="productDescribe != null"> AND product_describe = #{productDescribe}</if>
+			<if test="productPrice != null"> AND product_price = #{productPrice}</if>
+			<if test="imgurl != null"> AND imgurl = #{imgurl}</if>
+			<if test="originAddress != null"> AND origin_address = #{originAddress}</if>
+			<if test="period != null"> AND period = #{period}</if>
+			<if test="scale != null"> AND scale = #{scale}</if>
+			<if test="taste != null"> AND taste = #{taste}</if>
+			<if test="productBelogThreeCategoryId != null"> AND product_belog_three_category_id = #{productBelogThreeCategoryId}</if>
+		</trim>
+	</delete>
+  
+	<update id="updateByPK" parameterType="com.shop.bean.ProductDetail">
+		UPDATE product_detail
+		<set>
+			<if test="productBelogTwoCategoryId != null"> product_belog_two_category_id = #{productBelogTwoCategoryId}, </if>
+			<if test="productNum != null"> product_num = #{productNum}, </if>
+			<if test="productName != null"> product_name = #{productName}, </if>
+			<if test="productDescribe != null"> product_describe = #{productDescribe}, </if>
+			<if test="productPrice != null"> product_price = #{productPrice}, </if>
+			<if test="imgurl != null"> imgurl = #{imgurl}, </if>
+			<if test="originAddress != null"> origin_address = #{originAddress}, </if>
+			<if test="period != null"> period = #{period}, </if>
+			<if test="scale != null"> scale = #{scale}, </if>
+			<if test="taste != null"> taste = #{taste}, </if>
+			<if test="productBelogThreeCategoryId != null"> product_belog_three_category_id = #{productBelogThreeCategoryId}</if>
+		</set>
+		 WHERE product_id = #{productId}
+	</update>
+
+	<select id="findByPK" parameterType="Integer" resultType="com.shop.bean.ProductDetail">
+		SELECT product_id productId, product_belog_two_category_id productBelogTwoCategoryId, product_num productNum, product_name productName, product_describe productDescribe, product_price productPrice, imgurl imgurl, origin_address originAddress, period period, scale scale, taste taste, product_belog_three_category_id productBelogThreeCategoryId
+		FROM product_detail WHERE product_id = #{productId}
+	</select>
+
+	<select id="findByExample" resultType="com.shop.bean.ProductDetail">
+		SELECT 
+			product_id productId, 
+			product_belog_two_category_id productBelogTwoCategoryId, 
+			product_num productNum, 
+			product_name productName, 
+			product_describe productDescribe, 
+			product_price productPrice, 
+			imgurl imgurl, 
+			origin_address originAddress, 
+			period period, 
+			scale scale, 
+			taste taste, 
+			product_belog_three_category_id productBelogThreeCategoryId
+		FROM product_detail
+		<where>
+			<if test="productId != null"> AND product_id = #{productId}</if>
+			<if test="productBelogTwoCategoryId != null"> AND product_belog_two_category_id = #{productBelogTwoCategoryId}</if>
+			<if test="productNum != null"> AND product_num = #{productNum}</if>
+			<if test="productName != null"> AND product_name = #{productName}</if>
+			<if test="productDescribe != null"> AND product_describe = #{productDescribe}</if>
+			<if test="productPrice != null"> AND product_price = #{productPrice}</if>
+			<if test="imgurl != null"> AND imgurl = #{imgurl}</if>
+			<if test="originAddress != null"> AND origin_address = #{originAddress}</if>
+			<if test="period != null"> AND period = #{period}</if>
+			<if test="scale != null"> AND scale = #{scale}</if>
+			<if test="taste != null"> AND taste = #{taste}</if>
+			<if test="productBelogThreeCategoryId != null"> AND product_belog_three_category_id = #{productBelogThreeCategoryId}</if>
+		</where> 
+	</select>
+</mapper>

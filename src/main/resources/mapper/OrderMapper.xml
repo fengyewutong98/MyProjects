@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.OrderMapper">
+
+	<insert id="insert" parameterType="com.shop.bean.Order">
+		INSERT INTO
+		order(order_id,user_id,order_status,order_pay_amount,car_id,create_date)
+		VALUES(#{orderId},#{userId},#{orderStatus},#{orderPayAmount},#{carId},#{createDate})
+	</insert>
+
+	<delete id="deleteByPK" parameterType="Integer">
+		DELETE FROM order WHERE
+		order_id = #{orderId}
+	</delete>
+
+	<delete id="deleteByExample" parameterType="com.shop.bean.Order">
+		DELETE FROM order WHERE
+		<trim prefixOverrides="AND">
+			<if test="orderId != null"> AND order_id = #{orderId}</if>
+			<if test="userId != null"> AND user_id = #{userId}</if>
+			<if test="orderStatus != null"> AND order_status = #{orderStatus}</if>
+			<if test="orderPayAmount != null"> AND order_pay_amount = #{orderPayAmount}</if>
+			<if test="carId != null"> AND car_id = #{carId}</if>
+			<if test="createDate != null"> AND create_date = #{createDate}</if>
+		</trim>
+	</delete>
+
+	<update id="updateByPK" parameterType="com.shop.bean.Order">
+		UPDATE order
+		<set>
+			<if test="userId != null"> AND user_id = #{userId}</if>
+			<if test="orderStatus != null"> AND order_status = #{orderStatus}</if>
+			<if test="orderPayAmount != null"> AND order_pay_amount = #{orderPayAmount}</if>
+			<if test="carId != null"> AND car_id = #{carId}</if>
+			<if test="createDate != null"> AND create_date = #{createDate}</if>
+		</set>
+		WHERE order_id = #{orderId}
+	</update>
+
+	<select id="findByPK" parameterType="Integer" resultType="com.shop.bean.Order">
+		SELECT order_id orderId,user_id userId,order_status
+		orderStatus,order_pay_amount orderPayAmount,car_id carId,create_date
+		createDate
+		FROM order WHERE order_id = #{orderId}
+	</select>
+
+	<select id="generator_findByExample" resultType="ProductCart">
+		SELECT
+		order_id orderId,user_id userId,order_status orderStatus,order_pay_amount
+		orderPayAmount,car_id carId,create_date createDate
+		FROM order
+		<where>
+			<if test="orderId != null"> AND order_id = #{orderId}</if>
+			<if test="userId != null"> AND user_id = #{userId}</if>
+			<if test="orderStatus != null"> AND order_status = #{orderStatus}</if>
+			<if test="orderPayAmount != null"> AND order_pay_amount = #{orderPayAmount}</if>
+			<if test="carId != null"> AND car_id = #{carId}</if>
+			<if test="createDate != null"> AND create_date = #{createDate}</if>
+		</where>
+	</select>
+</mapper>

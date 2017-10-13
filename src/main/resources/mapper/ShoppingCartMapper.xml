@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.ShoppingCartMapper">
+
+
+
+	<insert id="insert" parameterType="com.shop.bean.ShoppingCart">
+		INSERT INTO shopping_cart(cart_id, cart_status, order_price, user_id, create_date, user_phone) 
+		VALUES(#{cartId}, #{cartStatus}, #{orderPrice}, #{userId}, #{createDate}, #{userPhone})
+	</insert>
+
+	<delete id="deleteByPK" parameterType="Integer">
+		DELETE FROM shopping_cart WHERE cart_id = #{cartId}
+	</delete>
+
+	<delete id="deleteByExample" parameterType="com.shop.bean.ShoppingCart">
+		DELETE FROM shopping_cart WHERE
+		<trim prefixOverrides="AND">
+			<if test="cartId != null"> AND cart_id = #{cartId}</if>
+			<if test="cartStatus != null"> AND cart_status = #{cartStatus}</if>
+			<if test="orderPrice != null"> AND order_price = #{orderPrice}</if>
+			<if test="userId != null"> AND user_id = #{userId}</if>
+			<if test="createDate != null"> AND create_date = #{createDate}</if>
+			<if test="userPhone != null"> AND user_phone = #{userPhone}</if>
+		</trim>
+	</delete>
+  
+	<update id="updateByPK" parameterType="com.shop.bean.ShoppingCart">
+		UPDATE shopping_cart
+		<set>
+			<if test="cartStatus != null"> cart_status = #{cartStatus}, </if>
+			<if test="orderPrice != null"> order_price = #{orderPrice}, </if>
+			<if test="userId != null"> user_id = #{userId}, </if>
+			<if test="createDate != null"> create_date = #{createDate}, </if>
+			<if test="userPhone != null"> user_phone = #{userPhone}</if>
+		</set>
+		 WHERE cart_id = #{cartId}
+	</update>
+
+	<select id="findByPK" parameterType="Integer" resultType="com.shop.bean.ShoppingCart">
+		SELECT cart_id cartId, cart_status cartStatus, order_price orderPrice, user_id userId, create_date createDate, user_phone userPhone
+		FROM shopping_cart WHERE cart_id = #{cartId}
+	</select>
+
+	<select id="findByExample" resultType="com.shop.bean.ShoppingCart">
+		SELECT 
+			cart_id cartId, 
+			cart_status cartStatus, 
+			order_price orderPrice, 
+			user_id userId, 
+			create_date createDate, 
+			user_phone userPhone
+		FROM shopping_cart
+		<where>
+			<if test="cartId != null"> AND cart_id = #{cartId}</if>
+			<if test="cartStatus != null"> AND cart_status = #{cartStatus}</if>
+			<if test="orderPrice != null"> AND order_price = #{orderPrice}</if>
+			<if test="userId != null"> AND user_id = #{userId}</if>
+			<if test="createDate != null"> AND create_date = #{createDate}</if>
+			<if test="userPhone != null"> AND user_phone = #{userPhone}</if>
+		</where> 
+	</select>
+</mapper>
