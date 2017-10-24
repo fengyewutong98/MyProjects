@@ -1,5 +1,7 @@
 package com.sm.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import com.sm.entity.SmUserDto;
 import com.sm.returndata.ApiResult;
 import com.sm.service.SmUserService;
+import com.sm.utils.CommonUtil;
 
 @Controller
 @RequestMapping("/user")
@@ -40,6 +43,8 @@ public class SmUserController {
 	public Object saveSmUser(@RequestBody SmUserDto smUserDto) {
 		ApiResult<Integer> result = new ApiResult<>();
 		try {
+			smUserDto.setCreateDate(new Date());
+			smUserDto.setPassword(CommonUtil.encoderByMd5(smUserDto.getPassword()));
 			smUserService.insertSmUser(smUserDto);
 			result.setData(smUserDto.getId());
 		} catch (Exception e) {
