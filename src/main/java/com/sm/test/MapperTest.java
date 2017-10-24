@@ -1,4 +1,4 @@
-package com.shop.test;
+package com.sm.test;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;

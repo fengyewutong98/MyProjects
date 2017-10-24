@@ -1,4 +1,4 @@
-package com.shop.test;
+package com.sm.test;
 
 import org.junit.Before;
 import org.junit.Test;

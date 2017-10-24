@@ -1,4 +1,4 @@
-package com.shop.test;
+package com.sm.test;
 
 import java.io.File;
 import java.util.ArrayList;
