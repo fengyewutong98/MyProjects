@@ -3,7 +3,9 @@ package com.sm.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SmUserDto implements Serializable{
+import com.sm.returndata.Pagination;
+
+public class SmUserDto extends Pagination implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -13,7 +15,7 @@ public class SmUserDto implements Serializable{
 
 	private String userImg;
 
-	private String mobile;
+	private Integer mobile;
 
 	private String password;
 
@@ -53,11 +55,11 @@ public class SmUserDto implements Serializable{
 		this.userImg = userImg;
 	}
 
-	public String getMobile() {
+	public Integer getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(String mobile) {
+	public void setMobile(Integer mobile) {
 		this.mobile = mobile;
 	}
 

@@ -38,11 +38,10 @@ public class SmUserServiceImpl implements SmUserService {
 	}
 
 	@Override
-	public PageInfo<SmUserDto> selectByExample(SmUserDto smUser, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+	public PageInfo<SmUserDto> selectByExample(SmUserDto smUser) {
+		PageHelper.startPage(smUser.getPageNum(), smUser.getPageSize());
 		List<SmUserDto> listSmUser = smUserMapper.selectByExample(smUser);
 		return new PageInfo<SmUserDto>(listSmUser);
-
 	}
 
 }

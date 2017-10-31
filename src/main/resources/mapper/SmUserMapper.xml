@@ -6,7 +6,7 @@
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="user_name" jdbcType="VARCHAR" property="userName" />
 		<result column="user_img" jdbcType="VARCHAR" property="userImg" />
-		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="mobile" jdbcType="INTEGER" property="mobile" />
 		<result column="password" jdbcType="VARCHAR" property="password" />
 		<result column="wechat_openid" jdbcType="VARCHAR" property="wechatOpenid" />
 		<result column="email" jdbcType="VARCHAR" property="email" />
@@ -17,67 +17,88 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, user_name, user_img, mobile, password, wechat_openid, email,
+		id, user_name, user_img, mobile, password, wechat_openid,email,
 		last_login_date,is_enable, create_date, update_date
 	</sql>
-	
-	<select id="selectByExample" parameterType="com.sm.entity.SmUserDto" resultMap="BaseResultMap">
+
+	<select id="selectByExample" parameterType="com.sm.entity.SmUserDto"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sm_user
 		<where>
-		    <if test="id != null">id = #{id}</if>
-			<if test="userName != null">user_name = #{userName}</if>
-			<if test="userImg != null">user_img = #{userImg}</if>
-			<if test="mobile != null">mobile = #{mobile}</if>
-			<if test="password != null">password = #{password}</if>
-			<if test="wechatOpenid != null">wechat_openid = #{wechatOpenid}</if>
-			<if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
-			<if test="lastLoginDate != null">last_login_date = #{lastLoginDate}</if>
-			<if test="isEnable != null">is_enable = #{isEnable}</if>
-			<if test="createDate != null">create_date = #{createDate}</if>
-			<if test="updateDate != null">update_date = #{updateDate}</if>
+			<if test="id != null">and id = #{id}</if>
+			<if test="userName != null">and user_name = #{userName}</if>
+			<if test="userImg != null">and user_img = #{userImg}</if>
+			<if test="mobile != null">and mobile = #{mobile}</if>
+			<if test="password != null">and password = #{password}</if>
+			<if test="wechatOpenid != null">and wechat_openid = #{wechatOpenid}</if>
+			<if test="email != null">and email = #{email,jdbcType=VARCHAR},</if>
+			<if test="lastLoginDate != null">and last_login_date = #{lastLoginDate}</if>
+			and is_enable = 0
+			<if test="createDate != null">and create_date = #{createDate}</if>
+			<if test="updateDate != null">and update_date = #{updateDate}</if>
 		</where>
 	</select>
-	
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sm_user
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER} and is_enable = 0
 	</select>
-	
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from sm_user
+		update sm_user
+		set is_enable=1,update_date = now()
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	
-	<insert id="insertSmUser" parameterType="com.sm.entity.SmUserDto" useGeneratedKeys="true" keyProperty="id">
-		insert into sm_user (id, user_name, user_img,
-		mobile, password, wechat_openid,
-		email, last_login_date, is_enable,
-		create_date, update_date)
-		values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
-		#{userImg,jdbcType=VARCHAR},
-		#{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{wechatOpenid,jdbcType=VARCHAR},
-		#{email,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP},
-		#{isEnable,jdbcType=CHAR},
-		#{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+
+	<insert id="insertSmUser" parameterType="com.sm.entity.SmUserDto"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sm_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="userName != null">user_name,</if>
+			<if test="userImg != null">user_img,</if>
+			<if test="mobile != null">mobile,</if>
+			<if test="password != null">password,</if>
+			<if test="wechatOpenid != null">wechat_openid,</if>
+			<if test="email != null">email,</if>
+			<if test="lastLoginDate != null">last_login_date,</if>
+			<if test="isEnable != null">is_enable,</if>
+			create_date,
+			update_date,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id,jdbcType=INTEGER},</if>
+			<if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+			<if test="userImg != null">#{userImg,jdbcType=VARCHAR},</if>
+			<if test="mobile != null">#{mobile,jdbcType=INTEGER},</if>
+			<if test="password != null">#{password,jdbcType=VARCHAR},</if>
+			<if test="wechatOpenid != null">#{wechatOpenid,jdbcType=VARCHAR},</if>
+			<if test="email != null">#{email,jdbcType=VARCHAR},</if>
+			<if test="lastLoginDate != null">#{lastLoginDate,jdbcType=TIMESTAMP},</if>
+			<if test="isEnable != null">#{isEnable,jdbcType=CHAR},</if>
+			now(),
+			now(),
+		</trim>
 	</insert>
-	
+
 	<update id="updateByPrimaryKeySelective" parameterType="com.sm.entity.SmUserDto">
 		update sm_user
 		<set>
 			<if test="userName != null">user_name = #{userName,jdbcType=VARCHAR},</if>
 			<if test="userImg != null">user_img = #{userImg,jdbcType=VARCHAR},</if>
-			<if test="mobile != null">mobile = #{mobile,jdbcType=VARCHAR},</if>
+			<if test="mobile != null">mobile = #{mobile,jdbcType=INTEGER},</if>
 			<if test="password != null">password = #{password,jdbcType=VARCHAR},</if>
 			<if test="wechatOpenid != null">wechat_openid = #{wechatOpenid,jdbcType=VARCHAR},</if>
 			<if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
 			<if test="lastLoginDate != null">last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},</if>
 			<if test="isEnable != null">is_enable = #{isEnable,jdbcType=CHAR},</if>
 			<if test="createDate != null">create_date = #{createDate,jdbcType=TIMESTAMP},</if>
-			<if test="updateDate != null">update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+			update_date = now(),
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>

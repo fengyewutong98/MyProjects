@@ -16,5 +16,5 @@ public interface SmUserService {
 
 	SmUserDto selectByPrimaryKey(Integer id);
 
-	PageInfo<SmUserDto> selectByExample(SmUserDto smUser, int pageNum, int pageSize);
+	PageInfo<SmUserDto> selectByExample(SmUserDto smUser);
 }
